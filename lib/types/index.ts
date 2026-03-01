@@ -15,10 +15,13 @@ export type {
   AlertThreshold,
   InterventionConfig,
   IEQHistoryPoint,
+  CircadianSchedulePoint,
+  CircadianStatus,
+  BehavioralPatterns,
 } from './wellness';
 
 // Import for use in this file
-import type { IEQStatus, WellnessScore, FallRiskProfile, SleepEnvironment, InterventionConfig } from './wellness';
+import type { IEQStatus, WellnessScore, FallRiskProfile, SleepEnvironment, InterventionConfig, CircadianStatus, BehavioralPatterns } from './wellness';
 
 // Organization
 export interface Portfolio {
@@ -99,6 +102,8 @@ export interface Unit {
   fallRiskProfile?: FallRiskProfile;
   sleepEnvironment?: SleepEnvironment;
   interventionConfig?: InterventionConfig;
+  circadianStatus?: CircadianStatus;
+  behavioralPatterns?: BehavioralPatterns;
   // P3-P4 Extension Fields (deprecated, use above)
   fallRisk?: 'low' | 'medium' | 'high';
   interventionStatus?: 'standby' | 'active';

@@ -1,11 +1,13 @@
 // WellStack P2 - Mock Wellness Data for Unit 2B (Margaret Chen)
 
-import { 
-  IEQStatus, 
-  WellnessScore, 
-  FallDetectionStatus, 
+import {
+  IEQStatus,
+  WellnessScore,
+  FallDetectionStatus,
   SleepEnvironment,
-  IEQHistoryPoint 
+  IEQHistoryPoint,
+  CircadianStatus,
+  BehavioralPatterns,
 } from '@/lib/types/wellness';
 
 // Helper functions for date generation
@@ -150,6 +152,75 @@ export const mockSleepEnvironment: SleepEnvironment = {
   ],
 };
 
+// Unit 2B Circadian Status - Good adherence
+export const mockCircadianStatus: CircadianStatus = {
+  currentCCT: 4500,
+  currentBrightness: 80,
+  currentPhase: 'daytime_focus',
+  melanopicEDI: 280,
+  mEDITarget: 250,
+  adherenceWeekly: 87,
+  schedule: [
+    { hour: 0, cct: 1800, brightness: 0 },
+    { hour: 1, cct: 1800, brightness: 0 },
+    { hour: 2, cct: 1800, brightness: 0 },
+    { hour: 3, cct: 1800, brightness: 0 },
+    { hour: 4, cct: 1800, brightness: 0 },
+    { hour: 5, cct: 1800, brightness: 0 },
+    { hour: 6, cct: 2700, brightness: 30 },
+    { hour: 7, cct: 4000, brightness: 60 },
+    { hour: 8, cct: 5000, brightness: 80 },
+    { hour: 9, cct: 5500, brightness: 90 },
+    { hour: 10, cct: 5500, brightness: 100 },
+    { hour: 11, cct: 5500, brightness: 100 },
+    { hour: 12, cct: 5500, brightness: 100 },
+    { hour: 13, cct: 5500, brightness: 100 },
+    { hour: 14, cct: 5000, brightness: 90 },
+    { hour: 15, cct: 4500, brightness: 85 },
+    { hour: 16, cct: 4000, brightness: 80 },
+    { hour: 17, cct: 3500, brightness: 70 },
+    { hour: 18, cct: 3000, brightness: 60 },
+    { hour: 19, cct: 2700, brightness: 50 },
+    { hour: 20, cct: 2400, brightness: 40 },
+    { hour: 21, cct: 2000, brightness: 20 },
+    { hour: 22, cct: 1800, brightness: 5 },
+    { hour: 23, cct: 1800, brightness: 0 },
+  ],
+  overrideActive: false,
+  lastManualOverride: null,
+};
+
+// Unit 2B Behavioral Patterns - Normal/Healthy
+export const mockBehavioralPatterns: BehavioralPatterns = {
+  adlConsistency: 91,
+  adlTrend: 'stable',
+  heatmap: (() => {
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    return days.map(day => ({
+      day,
+      hours: Array.from({ length: 24 }, (_, h) => {
+        // Realistic daily rhythm: sleep 0-6, active 7-21, winding down 22-23
+        if (h >= 0 && h <= 5) return 0.05 + Math.random() * 0.1;
+        if (h === 6) return 0.3 + Math.random() * 0.2;
+        if (h >= 7 && h <= 8) return 0.6 + Math.random() * 0.2;
+        if (h >= 9 && h <= 11) return 0.7 + Math.random() * 0.2;
+        if (h === 12) return 0.8 + Math.random() * 0.15;
+        if (h >= 13 && h <= 16) return 0.5 + Math.random() * 0.3;
+        if (h >= 17 && h <= 19) return 0.6 + Math.random() * 0.2;
+        if (h >= 20 && h <= 21) return 0.4 + Math.random() * 0.2;
+        return 0.15 + Math.random() * 0.15; // 22-23
+      }),
+    }));
+  })(),
+  patterns: {
+    bathroom: { status: 'normal', changePercent: 2 },
+    kitchen: { status: 'regular', mealsDetected: 3 },
+    sleepWake: { status: 'consistent', avgWake: '6:45 AM', avgSleep: '10:15 PM' },
+    mobility: { status: 'active', dailyMinutes: 142 },
+  },
+  activeDeviations: [],
+};
+
 // WELL v2 Compliance Thresholds
 export const WELL_THRESHOLDS = {
   pm25: { good: 15, warning: 35 },
@@ -232,6 +303,8 @@ export const wellnessDataByUnit: Record<string, {
   wellnessScore: WellnessScore;
   fallDetection: FallDetectionStatus;
   sleepEnvironment: SleepEnvironment;
+  circadian: CircadianStatus;
+  behavioral: BehavioralPatterns;
   history: IEQHistoryPoint[];
 }> = {
   '2b': {
@@ -239,6 +312,8 @@ export const wellnessDataByUnit: Record<string, {
     wellnessScore: mockWellnessScore,
     fallDetection: mockFallDetectionStatus,
     sleepEnvironment: mockSleepEnvironment,
+    circadian: mockCircadianStatus,
+    behavioral: mockBehavioralPatterns,
     history: generateIEQHistory(),
   },
 };

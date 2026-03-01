@@ -115,6 +115,39 @@ export interface InterventionConfig {
   lastTriggered?: Date;
 }
 
+// Circadian Lighting
+export interface CircadianSchedulePoint {
+  hour: number;
+  cct: number;        // Color temperature in Kelvin
+  brightness: number; // 0-100%
+}
+
+export interface CircadianStatus {
+  currentCCT: number;
+  currentBrightness: number;
+  currentPhase: 'morning_energize' | 'daytime_focus' | 'evening_winddown' | 'night_mode';
+  melanopicEDI: number;
+  mEDITarget: number;
+  adherenceWeekly: number; // 0-100%
+  schedule: CircadianSchedulePoint[];
+  overrideActive: boolean;
+  lastManualOverride: Date | null;
+}
+
+// Behavioral Patterns
+export interface BehavioralPatterns {
+  adlConsistency: number; // 0-100
+  adlTrend: 'stable' | 'improving' | 'declining';
+  heatmap: { day: string; hours: number[] }[]; // 7 days × 24 values (0-1 intensity)
+  patterns: {
+    bathroom: { status: 'normal' | 'elevated' | 'low'; changePercent: number };
+    kitchen: { status: 'regular' | 'declining' | 'minimal'; mealsDetected: number };
+    sleepWake: { status: 'consistent' | 'shifting' | 'irregular'; avgWake: string; avgSleep: string };
+    mobility: { status: 'active' | 'declining' | 'sedentary'; dailyMinutes: number };
+  };
+  activeDeviations: { pattern: string; message: string; severity: 'info' | 'warning' | 'critical' }[];
+}
+
 // 24h historical data point for charts
 export interface IEQHistoryPoint {
   timestamp: Date;
