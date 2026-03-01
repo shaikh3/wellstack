@@ -8,3 +8,4 @@ export { CircadianCard } from './CircadianCard';
 export { BehavioralPatternCard } from './BehavioralPatternCard';
 export { InterventionStatusCard } from './InterventionStatusCard';
 export { CommunityIntelCard } from './CommunityIntelCard';
+export { WellnessScoreDetailView } from './WellnessScoreDetailView';
