@@ -39,6 +39,7 @@ import {
   FallDetectionCard,
   SleepEnvironmentCard,
   CircadianCard,
+  BehavioralPatternCard,
   InterventionStatusCard,
   CommunityIntelCard,
 } from "@/components/wellness";
@@ -335,6 +336,7 @@ export function UnitDetail({ propertyId, unitId }: { propertyId: string; unitId:
             <WellnessScoreCard unitId={unitId} />
             <IEQCard unitId={unitId} />
             <CircadianCard unitId={unitId} />
+            <BehavioralPatternCard unitId={unitId} />
             <FallDetectionCard unitId={unitId} />
             <SleepEnvironmentCard unitId={unitId} />
             <InterventionStatusCard unitId={unitId} />
