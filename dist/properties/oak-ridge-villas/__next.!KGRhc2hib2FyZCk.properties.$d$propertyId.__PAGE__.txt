@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[22830,["/_next/static/chunks/194a8e5d313eefb2.js","/_next/static/chunks/ce0dec3727ccd63e.js","/_next/static/chunks/cdaf0996c3ea9aa6.js","/_next/static/chunks/0696bab484016dc1.js","/_next/static/chunks/ac00b9f8c8b687c7.js","/_next/static/chunks/b1bc83143f3eaf90.js"],"PropertyOverview"]
+3:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/a2dfb6fc5208ab9b.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"buildId":"kkWmiimAN6-eS1wVlwYGI","rsc":["$","$1","c",{"children":[["$","$L2",null,{"propertyId":"oak-ridge-villas"}],[["$","script","script-0",{"src":"/_next/static/chunks/ac00b9f8c8b687c7.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/b1bc83143f3eaf90.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"loading":null,"isPartial":false}
+5:null

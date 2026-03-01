@@ -1,4 +1,5 @@
 import { Property, Unit, Alert, AccessCode, ActivityLogEntry, Device, Resident } from '@/lib/types';
+import { IEQStatus, WellnessScore, FallRiskProfile, SleepEnvironment, InterventionConfig } from '@/lib/types/wellness';
 
 // Helper to create dates relative to now
 const minutesAgo = (mins: number) => new Date(Date.now() - mins * 60 * 1000);
@@ -66,7 +67,87 @@ export const demoDevices: Device[] = [
   },
 ];
 
-// Demo Unit 2B with P2-P4 placeholder data
+// P2 IEQ Status for Unit 2B
+const demoIEQStatus: IEQStatus = {
+  current: {
+    timestamp: new Date(),
+    temperature: 72,
+    humidity: 45,
+    co2: 420,
+    voc: 150,
+    pm25: 8,
+  },
+  stats: {
+    temperature: { min: 70, max: 74, avg: 72 },
+    humidity: { min: 42, max: 48, avg: 45 },
+    co2: { min: 380, max: 520, avg: 430 },
+  },
+  compliance: {
+    overall: 'compliant',
+    pm25: true,
+    co2: true,
+    voc: true,
+    humidity: true,
+    temperature: true,
+  },
+  trend: 'stable',
+};
+
+// P2 Wellness Score for Unit 2B
+const demoWellnessScore: WellnessScore = {
+  overall: 87,
+  timestamp: new Date(),
+  components: {
+    ieq: 90,
+    sleep: 85,
+    safety: 88,
+    activity: 84,
+  },
+  trend: 'improving',
+  percentile: 75,
+};
+
+// P2 Fall Risk Profile for Unit 2B
+const demoFallRiskProfile: FallRiskProfile = {
+  level: 'low',
+  score: 25,
+  factors: {
+    gaitAnomaly: false,
+    nighttimeActivity: false,
+    environmentalHazards: [],
+    history: false,
+  },
+  lastAssessed: new Date(),
+};
+
+// P2 Sleep Environment for Unit 2B
+const demoSleepEnvironment: SleepEnvironment = {
+  temperature: 68,
+  humidity: 50,
+  lightLevel: 0.5,
+  noiseLevel: 32,
+  circadianScore: 92,
+  lastLightExposure: hoursAgo(3),
+  recommendedBedtime: '10:00 PM',
+  status: 'optimal',
+  recommendations: [
+    'Maintain current bedroom temperature',
+    'Keep lights dim after 9:00 PM',
+    'Excellent sleep environment conditions',
+  ],
+};
+
+// P2 Intervention Config for Unit 2B
+const demoInterventionConfig: InterventionConfig = {
+  status: 'standby',
+  thresholds: [
+    { metric: 'Wellness Score', operator: 'lt', value: 70, action: 'notify' },
+    { metric: 'Fall Risk', operator: 'eq', value: 3, action: 'escalate' },
+    { metric: 'IEQ Violation', operator: 'eq', value: 1, action: 'maintenance' },
+  ],
+};
+
+// Demo Unit 2B with P2 Wellness Intelligence data
 export const demoUnit2B: Unit = {
   id: '2b',
   buildingId: 'building-a',
@@ -76,22 +157,13 @@ export const demoUnit2B: Unit = {
   status: 'occupied',
   resident: demoResident,
   devices: demoDevices,
-  // P2-P4 Placeholder Data
-  ieqStatus: {
-    temperature: 72,
-    humidity: 45,
-    co2: 420,
-    voc: 150,
-    pm25: 8,
-    overall: 'good',
-    lastReadingAt: minutesAgo(5),
-  },
-  wellnessScore: {
-    overall: 87,
-    components: { ieq: 90, sleep: 85, safety: 88, activity: 84 },
-    trend: 'improving',
-    calculatedAt: hoursAgo(1),
-  },
+  // P2 Wellness Intelligence Data
+  ieqStatus: demoIEQStatus,
+  wellnessScore: demoWellnessScore,
+  fallRiskProfile: demoFallRiskProfile,
+  sleepEnvironment: demoSleepEnvironment,
+  interventionConfig: demoInterventionConfig,
+  // Legacy fields for backwards compatibility
   fallRisk: 'low',
   interventionStatus: 'standby',
   communityScore: 8,

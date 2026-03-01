@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { 
@@ -21,292 +21,26 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Slider } from "@/components/ui/slider";
 import { usePortfolioStore } from "@/lib/store/portfolioStore";
 import { useUnitStore } from "@/lib/store/unitStore";
 import { useAlertStore } from "@/lib/store/alertStore";
 import { useAccessStore } from "@/lib/store/accessStore";
+import { useWellnessStore } from "@/lib/store/wellnessStore";
 import { Device, DeviceType } from "@/lib/types";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { delays } from "@/lib/mock/delays";
 import { toast } from "sonner";
 
-// P2-P4 Placeholder Components
-function IEQCard({ unitId }: { unitId: string }) {
-  const unit = useUnitStore((state) => state.getUnitById(unitId));
-  const ieq = unit?.ieqStatus;
-
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Card className="cursor-pointer border-dashed border-slate-300 bg-gradient-to-br from-slate-50 to-slate-100 transition-all hover:shadow-md">
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium text-slate-600">IEQ Monitoring</CardTitle>
-              <Badge variant="outline" className="text-xs">Coming P2</Badge>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {ieq ? (
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-500">Temperature</span>
-                  <span className="font-medium">{ieq.temperature}°F ✓</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-500">Humidity</span>
-                  <span className="font-medium">{ieq.humidity}% ✓</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-500">CO₂</span>
-                  <span className="font-medium">{ieq.co2}ppm ✓</span>
-                </div>
-                <div className="mt-3 text-center text-xs text-slate-400">
-                  Click for details
-                </div>
-              </div>
-            ) : (
-              <p className="text-sm text-slate-400">IEQ data not available</p>
-            )}
-          </CardContent>
-        </Card>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>IEQ Monitoring</DialogTitle>
-          <DialogDescription>
-            Full IEQ analytics coming in P2
-          </DialogDescription>
-        </DialogHeader>
-        <div className="space-y-4 py-4">
-          <p className="text-sm text-slate-600">
-            P2 will introduce comprehensive Indoor Environmental Quality monitoring including:
-          </p>
-          <ul className="list-inside list-disc space-y-1 text-sm text-slate-600">
-            <li>Real-time temperature and humidity tracking</li>
-            <li>CO₂ and VOC monitoring</li>
-            <li>PM2.5 air quality sensors</li>
-            <li>Historical trends and analytics</li>
-            <li>Automated ventilation recommendations</li>
-          </ul>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-function WellnessScoreCard({ unitId }: { unitId: string }) {
-  const unit = useUnitStore((state) => state.getUnitById(unitId));
-  const wellness = unit?.wellnessScore;
-
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Card className="cursor-pointer border-dashed border-slate-300 bg-gradient-to-br from-slate-50 to-slate-100 transition-all hover:shadow-md">
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium text-slate-600">Wellness Score</CardTitle>
-              <Badge variant="outline" className="text-xs">Coming P2</Badge>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {wellness ? (
-              <div className="space-y-3">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-bold">{wellness.overall}</span>
-                  <span className="text-sm text-slate-500">/100</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <span>Trend: {wellness.trend === 'improving' ? '↗' : wellness.trend === 'declining' ? '↘' : '→'}</span>
-                  <span className="text-slate-500">
-                    {wellness.trend === 'improving' ? '+3pts' : ''}
-                  </span>
-                </div>
-                <div className="mt-3 text-center text-xs text-slate-400">
-                  Click for details
-                </div>
-              </div>
-            ) : (
-              <p className="text-sm text-slate-400">Wellness data not available</p>
-            )}
-          </CardContent>
-        </Card>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Wellness Score</DialogTitle>
-          <DialogDescription>
-            AI-powered wellness scoring coming in P2
-          </DialogDescription>
-        </DialogHeader>
-        <div className="space-y-4 py-4">
-          <p className="text-sm text-slate-600">
-            P2 will introduce AI-powered wellness scoring using:
-          </p>
-          <ul className="list-inside list-disc space-y-1 text-sm text-slate-600">
-            <li>Sleep quality analysis</li>
-            <li>Indoor environmental quality correlation</li>
-            <li>Activity pattern recognition</li>
-            <li>Personalized wellness recommendations</li>
-            <li>Predictive health insights</li>
-          </ul>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-function FallDetectionCard({ unitId }: { unitId: string }) {
-  const unit = useUnitStore((state) => state.getUnitById(unitId));
-
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Card className="cursor-pointer border-dashed border-slate-300 bg-gradient-to-br from-slate-50 to-slate-100 transition-all hover:shadow-md">
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium text-slate-600">Fall Detection</CardTitle>
-              <Badge variant="outline" className="text-xs">Coming P2</Badge>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-green-500" />
-                <span className="font-medium">Risk: {unit?.fallRisk || 'Low'} ✓</span>
-              </div>
-              <p className="text-xs text-slate-500">No recent incidents detected</p>
-              <div className="mt-3 text-center text-xs text-slate-400">
-                Click for details
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Fall Detection</DialogTitle>
-          <DialogDescription>
-            mmWave radar and AI fall detection coming in P2
-          </DialogDescription>
-        </DialogHeader>
-        <div className="space-y-4 py-4">
-          <p className="text-sm text-slate-600">
-            P2 will introduce advanced fall detection using:
-          </p>
-          <ul className="list-inside list-disc space-y-1 text-sm text-slate-600">
-            <li>mmWave radar technology</li>
-            <li>AI-powered motion analysis</li>
-            <li>Privacy-preserving detection (no cameras)</li>
-            <li>Instant alert notifications</li>
-            <li>Automated emergency response</li>
-          </ul>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-function InterventionCard({ unitId }: { unitId: string }) {
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Card className="cursor-pointer border-dashed border-slate-300 bg-gradient-to-br from-slate-50 to-slate-100 transition-all hover:shadow-md">
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium text-slate-600">Intervention</CardTitle>
-              <Badge variant="outline" className="text-xs">Coming P3</Badge>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-slate-400" />
-                <span className="font-medium">Status: Standby</span>
-              </div>
-              <p className="text-xs text-slate-500">Automated workflows ready</p>
-              <div className="mt-3 text-center text-xs text-slate-400">
-                Click for details
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Intervention Management</DialogTitle>
-          <DialogDescription>
-            Automated alert escalation and caregiver workflows coming in P3
-          </DialogDescription>
-        </DialogHeader>
-        <div className="space-y-4 py-4">
-          <p className="text-sm text-slate-600">
-            P3 will introduce intelligent intervention management:
-          </p>
-          <ul className="list-inside list-disc space-y-1 text-sm text-slate-600">
-            <li>Automated alert escalation</li>
-            <li>Caregiver notification workflows</li>
-            <li>Family member alerts</li>
-            <li>Emergency service integration</li>
-            <li>Intervention tracking and reporting</li>
-          </ul>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-function CommunityIntelCard({ unitId }: { unitId: string }) {
-  const unit = useUnitStore((state) => state.getUnitById(unitId));
-
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Card className="cursor-pointer border-dashed border-slate-300 bg-gradient-to-br from-slate-50 to-slate-100 transition-all hover:shadow-md">
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium text-slate-600">Community Intel</CardTitle>
-              <Badge variant="outline" className="text-xs">Coming P4</Badge>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-500">Social Score</span>
-                <span className="font-medium">{unit?.communityScore || 8}/10</span>
-              </div>
-              <p className="text-xs text-slate-500">Community engagement metrics</p>
-              <div className="mt-3 text-center text-xs text-slate-400">
-                Click for details
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Community Intelligence</DialogTitle>
-          <DialogDescription>
-            Population health and community wellness analytics coming in P4
-          </DialogDescription>
-        </DialogHeader>
-        <div className="space-y-4 py-4">
-          <p className="text-sm text-slate-600">
-            P4 will introduce community-level wellness analytics:
-          </p>
-          <ul className="list-inside list-disc space-y-1 text-sm text-slate-600">
-            <li>Population health dashboards</li>
-            <li>Social interaction metrics</li>
-            <li>Community engagement scoring</li>
-            <li>Trend analysis across properties</li>
-            <li>Predictive community insights</li>
-          </ul>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-}
+// P2 Wellness Intelligence Components
+import {
+  IEQCard,
+  WellnessScoreCard,
+  FallDetectionCard,
+  SleepEnvironmentCard,
+  InterventionStatusCard,
+  CommunityIntelCard,
+} from "@/components/wellness";
 
 // Device Control Components
 function DeviceCard({ device, unitId }: { device: Device; unitId: string }) {
@@ -487,6 +221,12 @@ export function UnitDetail({ propertyId, unitId }: { propertyId: string; unitId:
   const alerts = useAlertStore((state) => 
     state.alerts.filter(a => a.unitId === unitId && !a.resolvedAt)
   );
+  const refreshAllWellnessData = useWellnessStore((state) => state.refreshAllWellnessData);
+
+  // Load wellness data on mount
+  useEffect(() => {
+    refreshAllWellnessData(unitId);
+  }, [unitId, refreshAllWellnessData]);
 
   if (!property || !unit) return null;
 
@@ -587,14 +327,15 @@ export function UnitDetail({ propertyId, unitId }: { propertyId: string; unitId:
           )}
         </div>
 
-        {/* Right Column - P2-P4 Placeholders (40%) */}
+        {/* Right Column - P2 Wellness Intelligence (40%) */}
         <div className="lg:col-span-2 space-y-4">
           <h2 className="text-lg font-semibold">Wellness Intelligence</h2>
           <div className="space-y-4">
             <IEQCard unitId={unitId} />
             <WellnessScoreCard unitId={unitId} />
             <FallDetectionCard unitId={unitId} />
-            <InterventionCard unitId={unitId} />
+            <SleepEnvironmentCard unitId={unitId} />
+            <InterventionStatusCard unitId={unitId} />
             <CommunityIntelCard unitId={unitId} />
           </div>
         </div>

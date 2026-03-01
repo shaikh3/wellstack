@@ -1,5 +1,5 @@
 import { UnitDetail } from "@/components/unit/UnitDetail";
-import { getPropertyById, getUnitById } from "@/lib/mock/data";
+import { getPropertyById, getUnitById, demoProperties } from "@/lib/mock/data";
 import { notFound } from "next/navigation";
 
 interface Props {
@@ -7,6 +7,24 @@ interface Props {
     propertyId: string;
     unitId: string;
   }>;
+}
+
+// Generate static params for all property/unit combinations
+export function generateStaticParams() {
+  const params: { propertyId: string; unitId: string }[] = [];
+  
+  demoProperties.forEach((property) => {
+    property.buildings.forEach((building) => {
+      building.units.forEach((unit) => {
+        params.push({
+          propertyId: property.id,
+          unitId: unit.id,
+        });
+      });
+    });
+  });
+  
+  return params;
 }
 
 export default async function UnitPage({ params }: Props) {

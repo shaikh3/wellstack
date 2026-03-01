@@ -1,4 +1,24 @@
-// WellStack P1 - TypeScript Types
+// WellStack P1 + P2 - TypeScript Types
+
+// Re-export wellness types from P2
+export type {
+  IEQReading,
+  IEQStats,
+  IEQStatus,
+  WellnessScore,
+  FallRiskFactors,
+  FallRiskProfile,
+  FallActivityEntry,
+  FallDetectionStatus,
+  SleepEnvironment,
+  InterventionStatus,
+  AlertThreshold,
+  InterventionConfig,
+  IEQHistoryPoint,
+} from './wellness';
+
+// Import for use in this file
+import type { IEQStatus, WellnessScore, FallRiskProfile, SleepEnvironment, InterventionConfig } from './wellness';
 
 // Organization
 export interface Portfolio {
@@ -73,9 +93,13 @@ export interface Unit {
   status: UnitStatus;
   resident?: Resident;
   devices: Device[];
-  // P2-P4 Extension Fields
+  // P2 Wellness Intelligence Fields
   ieqStatus?: IEQStatus;
   wellnessScore?: WellnessScore;
+  fallRiskProfile?: FallRiskProfile;
+  sleepEnvironment?: SleepEnvironment;
+  interventionConfig?: InterventionConfig;
+  // P3-P4 Extension Fields (deprecated, use above)
   fallRisk?: 'low' | 'medium' | 'high';
   interventionStatus?: 'standby' | 'active';
   communityScore?: number;
@@ -122,29 +146,6 @@ export interface Alert {
   acknowledgedAt?: Date;
   resolvedAt?: Date;
   workOrderId?: string;
-}
-
-// P2-P4 Placeholder Types
-export interface IEQStatus {
-  temperature: number;
-  humidity: number;
-  co2: number;
-  voc: number;
-  pm25: number;
-  overall: 'good' | 'fair' | 'poor';
-  lastReadingAt: Date;
-}
-
-export interface WellnessScore {
-  overall: number;
-  components: {
-    ieq: number;
-    sleep: number;
-    safety: number;
-    activity: number;
-  };
-  trend: 'improving' | 'stable' | 'declining';
-  calculatedAt: Date;
 }
 
 // Activity Log
