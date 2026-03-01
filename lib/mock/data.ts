@@ -147,6 +147,160 @@ const demoInterventionConfig: InterventionConfig = {
   ],
 };
 
+// Harold Finch - At-Risk Demo Resident (Unit 118)
+export const demoResident118: Resident = {
+  id: 'resident-harold-finch',
+  name: 'Harold Finch',
+  email: 'harold.finch@email.com',
+  phone: '(512) 555-0187',
+  leaseStart: new Date('2023-06-01'),
+  leaseEnd: new Date('2025-05-31'),
+  accessCode: '5193',
+};
+
+// Devices for Unit 118 - some degraded
+export const demoDevices118: Device[] = [
+  {
+    id: 'lock-118',
+    unitId: '118',
+    name: 'Front Door',
+    type: 'lock',
+    status: 'online',
+    batteryLevel: 22,
+    lastSeenAt: minutesAgo(5),
+    state: { type: 'lock', locked: true, lastUsedAt: hoursAgo(72) },
+  },
+  {
+    id: 'therm-118',
+    unitId: '118',
+    name: 'Living Room Thermostat',
+    type: 'thermostat',
+    status: 'online',
+    lastSeenAt: minutesAgo(2),
+    state: { type: 'thermostat', temperature: 78, targetTemp: 78, mode: 'heat' },
+  },
+  {
+    id: 'leak-118',
+    unitId: '118',
+    name: 'Bathroom Leak Sensor',
+    type: 'leak_sensor',
+    status: 'online',
+    lastSeenAt: minutesAgo(3),
+    state: { type: 'leak_sensor', wet: false, location: 'Under bathroom sink' },
+  },
+  {
+    id: 'motion-118',
+    unitId: '118',
+    name: 'Living Room Motion',
+    type: 'motion_sensor',
+    status: 'online',
+    lastSeenAt: hoursAgo(4),
+    state: { type: 'motion_sensor', motionDetected: false, lastMotionAt: hoursAgo(4) },
+  },
+];
+
+// P2 IEQ Status for Unit 118 - Non-compliant
+const demoIEQStatus118: IEQStatus = {
+  current: {
+    timestamp: new Date(),
+    temperature: 78,
+    humidity: 28,
+    co2: 1050,
+    voc: 620,
+    pm25: 22,
+  },
+  stats: {
+    temperature: { min: 76, max: 82, avg: 78 },
+    humidity: { min: 24, max: 32, avg: 28 },
+    co2: { min: 850, max: 1200, avg: 1020 },
+  },
+  compliance: {
+    overall: 'violation',
+    pm25: false,
+    co2: false,
+    voc: false,
+    humidity: false,
+    temperature: false,
+  },
+  trend: 'declining',
+};
+
+// P2 Wellness Score for Unit 118 - Critical (42)
+const demoWellnessScore118: WellnessScore = {
+  overall: 42,
+  timestamp: new Date(),
+  components: {
+    ieq: 35,
+    sleep: 38,
+    safety: 30,
+    activity: 55,
+  },
+  trend: 'declining',
+  percentile: 8,
+};
+
+// P2 Fall Risk Profile for Unit 118 - High risk, recent fall
+const demoFallRiskProfile118: FallRiskProfile = {
+  level: 'high',
+  score: 82,
+  factors: {
+    gaitAnomaly: true,
+    nighttimeActivity: true,
+    environmentalHazards: ['Poor lighting in hallway', 'Loose rug in bathroom'],
+    history: true,
+  },
+  lastAssessed: new Date(),
+};
+
+// P2 Sleep Environment for Unit 118 - Poor
+const demoSleepEnvironment118: SleepEnvironment = {
+  temperature: 78,
+  humidity: 28,
+  lightLevel: 12,
+  noiseLevel: 48,
+  circadianScore: 34,
+  lastLightExposure: hoursAgo(1),
+  recommendedBedtime: '10:00 PM',
+  status: 'poor',
+  recommendations: [
+    'Reduce bedroom temperature to 65-68°F for better sleep',
+    'Address light intrusion — 12 lux detected during sleep hours',
+    'Investigate noise source — 48 dB exceeds recommended 35 dB',
+    'Circadian lighting schedule has been overridden 6 times this week',
+  ],
+};
+
+// P2 Intervention Config for Unit 118 - Active
+const demoInterventionConfig118: InterventionConfig = {
+  status: 'escalated',
+  thresholds: [
+    { metric: 'Wellness Score', operator: 'lt', value: 70, action: 'notify' },
+    { metric: 'Fall Risk', operator: 'eq', value: 3, action: 'escalate' },
+    { metric: 'IEQ Violation', operator: 'eq', value: 1, action: 'maintenance' },
+  ],
+  lastTriggered: hoursAgo(6),
+};
+
+// Demo Unit 118 - At-Risk scenario
+export const demoUnit118: Unit = {
+  id: '118',
+  buildingId: 'building-b',
+  propertyId: 'lakeview-commons',
+  unitNumber: '118',
+  floor: 1,
+  status: 'occupied',
+  resident: demoResident118,
+  devices: demoDevices118,
+  ieqStatus: demoIEQStatus118,
+  wellnessScore: demoWellnessScore118,
+  fallRiskProfile: demoFallRiskProfile118,
+  sleepEnvironment: demoSleepEnvironment118,
+  interventionConfig: demoInterventionConfig118,
+  fallRisk: 'high',
+  interventionStatus: 'active',
+  communityScore: 2,
+};
+
 // Demo Unit 2B with P2 Wellness Intelligence data
 export const demoUnit2B: Unit = {
   id: '2b',
@@ -230,7 +384,12 @@ const generateUnits = (buildingId: string, propertyId: string, prefix: string, f
   if (demoIndex >= 0) {
     units[demoIndex] = demoUnit2B;
   }
-  
+
+  // Inject Unit 118 into Building B
+  if (buildingId === 'building-b') {
+    units.push(demoUnit118);
+  }
+
   return units;
 };
 
@@ -366,6 +525,47 @@ export const demoAlerts: Alert[] = [
     title: 'Thermostat Offline',
     description: 'Living room thermostat not responding',
     createdAt: hoursAgo(2),
+  },
+  // Unit 118 - Critical wellness alerts
+  {
+    id: 'alert-118-1',
+    propertyId: 'lakeview-commons',
+    unitId: '118',
+    severity: 'critical',
+    type: 'fall_detected',
+    title: 'Fall Detected',
+    description: 'mmWave sensor detected fall event in bathroom — response pending',
+    createdAt: hoursAgo(6),
+  },
+  {
+    id: 'alert-118-2',
+    propertyId: 'lakeview-commons',
+    unitId: '118',
+    severity: 'critical',
+    type: 'isolation_alert',
+    title: 'Social Isolation Flag',
+    description: 'No door unlock or common area visit in 72+ hours — wellness check recommended',
+    createdAt: hoursAgo(12),
+  },
+  {
+    id: 'alert-118-3',
+    propertyId: 'lakeview-commons',
+    unitId: '118',
+    severity: 'warning',
+    type: 'ieq_violation',
+    title: 'IEQ Non-Compliant',
+    description: 'CO₂ at 1050 ppm, TVOC at 620 ppb — exceeding WELL v2 thresholds',
+    createdAt: hoursAgo(18),
+  },
+  {
+    id: 'alert-118-4',
+    propertyId: 'lakeview-commons',
+    unitId: '118',
+    severity: 'warning',
+    type: 'wellness_score_drop',
+    title: 'Wellness Score Critical',
+    description: 'Wellness score dropped to 42 — down 15 pts in 7 days',
+    createdAt: hoursAgo(24),
   },
 ];
 

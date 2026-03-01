@@ -221,6 +221,243 @@ export const mockBehavioralPatterns: BehavioralPatterns = {
   activeDeviations: [],
 };
 
+// ============================================================
+// Unit 118 — At-Risk / Intervention Needed (Harold Finch)
+// ============================================================
+
+// Unit 118 IEQ Status - Non-compliant
+const mockIEQStatus118: IEQStatus = {
+  current: {
+    timestamp: new Date(),
+    temperature: 78,
+    humidity: 28,
+    co2: 1050,
+    voc: 620,
+    pm25: 22,
+  },
+  stats: {
+    temperature: { min: 76, max: 82, avg: 78 },
+    humidity: { min: 24, max: 32, avg: 28 },
+    co2: { min: 850, max: 1200, avg: 1020 },
+  },
+  compliance: {
+    overall: 'violation',
+    pm25: false,
+    co2: false,
+    voc: false,
+    humidity: false,
+    temperature: false,
+  },
+  trend: 'declining',
+};
+
+// Unit 118 Wellness Score - Critical (42)
+const mockWellnessScore118: WellnessScore = {
+  overall: 42,
+  timestamp: new Date(),
+  components: {
+    ieq: 35,
+    sleep: 38,
+    safety: 30,
+    activity: 55,
+  },
+  trend: 'declining',
+  percentile: 8,
+};
+
+// Unit 118 Fall Detection Status - Active fall event, high risk
+const mockFallDetectionStatus118: FallDetectionStatus = {
+  profile: {
+    level: 'high',
+    score: 82,
+    factors: {
+      gaitAnomaly: true,
+      nighttimeActivity: true,
+      environmentalHazards: ['Poor lighting in hallway', 'Loose rug in bathroom'],
+      history: true,
+    },
+    lastAssessed: new Date(),
+  },
+  radarStatus: 'online',
+  coverage: ['Bedroom', 'Bathroom', 'Hallway'],
+  recentActivity: [
+    {
+      id: 'fall-118-1',
+      timestamp: hoursAgo(6),
+      type: 'fall_detected',
+      zone: 'Bathroom',
+      details: 'Fall detected — resident was on floor for 3 minutes before self-recovery. Staff notified.',
+      severity: 'high',
+    },
+    {
+      id: 'fall-118-2',
+      timestamp: hoursAgo(14),
+      type: 'nighttime_waking',
+      zone: 'Bathroom',
+      details: 'Extended bathroom visit — 22 minutes (normally 5-8 min)',
+      severity: 'medium',
+    },
+    {
+      id: 'fall-118-3',
+      timestamp: hoursAgo(20),
+      type: 'gait_anomaly',
+      zone: 'Hallway',
+      details: 'Gait variability increased 35% vs. 30-day baseline',
+      severity: 'medium',
+    },
+    {
+      id: 'fall-118-4',
+      timestamp: hoursAgo(38),
+      type: 'nighttime_waking',
+      zone: 'Bathroom',
+      details: '3rd bathroom visit — elevated frequency',
+      severity: 'medium',
+    },
+    {
+      id: 'fall-118-5',
+      timestamp: hoursAgo(72),
+      type: 'zone_exit',
+      zone: 'Unit',
+      details: 'Last time resident left the unit',
+      severity: 'low',
+    },
+  ],
+};
+
+// Unit 118 Sleep Environment - Poor
+const mockSleepEnvironment118: SleepEnvironment = {
+  temperature: 78,
+  humidity: 28,
+  lightLevel: 12,
+  noiseLevel: 48,
+  circadianScore: 34,
+  lastLightExposure: hoursAgo(1),
+  recommendedBedtime: '10:00 PM',
+  status: 'poor',
+  recommendations: [
+    'Reduce bedroom temperature to 65-68°F for better sleep',
+    'Address light intrusion — 12 lux during sleep hours',
+    'Investigate noise source — 48 dB exceeds 35 dB threshold',
+    'Circadian lighting overridden 6 times this week',
+  ],
+};
+
+// Unit 118 Circadian Status - Low adherence, overrides
+const mockCircadianStatus118: CircadianStatus = {
+  currentCCT: 5500,
+  currentBrightness: 100,
+  currentPhase: 'night_mode', // Wrong phase for the time — override active
+  melanopicEDI: 380,
+  mEDITarget: 10, // Should be low at night
+  adherenceWeekly: 31,
+  schedule: [
+    { hour: 0, cct: 1800, brightness: 0 },
+    { hour: 1, cct: 1800, brightness: 0 },
+    { hour: 2, cct: 1800, brightness: 0 },
+    { hour: 3, cct: 1800, brightness: 0 },
+    { hour: 4, cct: 1800, brightness: 0 },
+    { hour: 5, cct: 1800, brightness: 0 },
+    { hour: 6, cct: 2700, brightness: 30 },
+    { hour: 7, cct: 4000, brightness: 60 },
+    { hour: 8, cct: 5000, brightness: 80 },
+    { hour: 9, cct: 5500, brightness: 90 },
+    { hour: 10, cct: 5500, brightness: 100 },
+    { hour: 11, cct: 5500, brightness: 100 },
+    { hour: 12, cct: 5500, brightness: 100 },
+    { hour: 13, cct: 5500, brightness: 100 },
+    { hour: 14, cct: 5000, brightness: 90 },
+    { hour: 15, cct: 4500, brightness: 85 },
+    { hour: 16, cct: 4000, brightness: 80 },
+    { hour: 17, cct: 3500, brightness: 70 },
+    { hour: 18, cct: 3000, brightness: 60 },
+    { hour: 19, cct: 2700, brightness: 50 },
+    { hour: 20, cct: 2400, brightness: 40 },
+    { hour: 21, cct: 2000, brightness: 20 },
+    { hour: 22, cct: 1800, brightness: 5 },
+    { hour: 23, cct: 1800, brightness: 0 },
+  ],
+  overrideActive: true,
+  lastManualOverride: hoursAgo(2),
+};
+
+// Unit 118 Behavioral Patterns - Declining / At-Risk
+const mockBehavioralPatterns118: BehavioralPatterns = {
+  adlConsistency: 38,
+  adlTrend: 'declining',
+  heatmap: (() => {
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    return days.map((day, dayIdx) => ({
+      day,
+      hours: Array.from({ length: 24 }, (_, h) => {
+        // Irregular pattern: long sleep, minimal activity, frequent nighttime waking
+        if (h >= 0 && h <= 3) return 0.05 + Math.random() * 0.05;
+        if (h === 4) return 0.2 + Math.random() * 0.15; // nighttime waking
+        if (h >= 5 && h <= 9) return 0.05 + Math.random() * 0.08;
+        if (h >= 10 && h <= 11) return 0.15 + Math.random() * 0.1; // late wake
+        if (h >= 12 && h <= 14) return 0.2 + Math.random() * 0.15; // minimal activity
+        if (h >= 15 && h <= 17) return 0.1 + Math.random() * 0.1; // sedentary
+        if (h >= 18 && h <= 20) return 0.15 + Math.random() * 0.1;
+        if (h === 21) return 0.3 + Math.random() * 0.1; // bathroom
+        if (h >= 22) return 0.08 + Math.random() * 0.08;
+        return 0.1;
+      }),
+    }));
+  })(),
+  patterns: {
+    bathroom: { status: 'elevated', changePercent: 42 },
+    kitchen: { status: 'minimal', mealsDetected: 1 },
+    sleepWake: { status: 'irregular', avgWake: '10:30 AM', avgSleep: '1:15 AM' },
+    mobility: { status: 'sedentary', dailyMinutes: 28 },
+  },
+  activeDeviations: [
+    {
+      pattern: 'fall',
+      message: 'Fall detected in bathroom 6 hours ago — staff notified, wellness check pending',
+      severity: 'critical',
+    },
+    {
+      pattern: 'isolation',
+      message: 'No door unlock or common area visit in 72+ hours — social isolation flag',
+      severity: 'critical',
+    },
+    {
+      pattern: 'bathroom',
+      message: 'Bathroom visits increased 42% over 7 days — may indicate UTI or GI issue',
+      severity: 'warning',
+    },
+    {
+      pattern: 'kitchen',
+      message: 'Only 1 meal/day detected — declining from 3 meals/day baseline',
+      severity: 'warning',
+    },
+    {
+      pattern: 'gait',
+      message: 'Gait variability increased 35% — fall risk elevated',
+      severity: 'warning',
+    },
+  ],
+};
+
+// Generate degraded IEQ history for Unit 118
+function generateIEQHistory118(): IEQHistoryPoint[] {
+  const data: IEQHistoryPoint[] = [];
+  const now = new Date();
+
+  for (let i = 24; i >= 0; i--) {
+    const timestamp = new Date(now.getTime() - i * 60 * 60 * 1000);
+    data.push({
+      timestamp,
+      temperature: 78 + Math.sin(i * 0.3) * 2 + (Math.random() - 0.5),
+      humidity: 28 + Math.cos(i * 0.3) * 3 + (Math.random() - 0.5) * 2,
+      co2: 950 + Math.sin(i * 0.4) * 100 + (Math.random() - 0.5) * 60,
+      pm25: 18 + Math.random() * 8,
+      voc: 550 + Math.random() * 120,
+    });
+  }
+
+  return data;
+}
+
 // WELL v2 Compliance Thresholds
 export const WELL_THRESHOLDS = {
   pm25: { good: 15, warning: 35 },
@@ -315,6 +552,15 @@ export const wellnessDataByUnit: Record<string, {
     circadian: mockCircadianStatus,
     behavioral: mockBehavioralPatterns,
     history: generateIEQHistory(),
+  },
+  '118': {
+    ieq: mockIEQStatus118,
+    wellnessScore: mockWellnessScore118,
+    fallDetection: mockFallDetectionStatus118,
+    sleepEnvironment: mockSleepEnvironment118,
+    circadian: mockCircadianStatus118,
+    behavioral: mockBehavioralPatterns118,
+    history: generateIEQHistory118(),
   },
 };
 
