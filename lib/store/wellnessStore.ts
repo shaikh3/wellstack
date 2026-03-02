@@ -8,6 +8,8 @@ import {
   FallDetectionStatus,
   SleepEnvironment,
   IEQHistoryPoint,
+  CircadianData,
+  BehavioralData,
 } from '@/lib/types/wellness';
 import {
   getWellnessDataForUnit,
@@ -22,6 +24,8 @@ interface WellnessState {
   wellnessScores: Record<string, WellnessScore>;
   fallDetectionStatus: Record<string, FallDetectionStatus>;
   sleepEnvironments: Record<string, SleepEnvironment>;
+  circadianData: Record<string, CircadianData>;
+  behavioralData: Record<string, BehavioralData>;
   ieqHistory: Record<string, IEQHistoryPoint[]>;
   
   // Loading states
@@ -29,6 +33,8 @@ interface WellnessState {
   isLoadingScore: boolean;
   isLoadingFallRisk: boolean;
   isLoadingSleepEnv: boolean;
+  isLoadingCircadian: boolean;
+  isLoadingBehavioral: boolean;
   
   // Hydration state
   _hasHydrated: boolean;
@@ -39,6 +45,8 @@ interface WellnessState {
   fetchWellnessScore: (unitId: string) => Promise<void>;
   fetchFallDetection: (unitId: string) => Promise<void>;
   fetchSleepEnvironment: (unitId: string) => Promise<void>;
+  fetchCircadianData: (unitId: string) => Promise<void>;
+  fetchBehavioralData: (unitId: string) => Promise<void>;
   refreshAllWellnessData: (unitId: string) => Promise<void>;
   
   // Getters
@@ -46,6 +54,8 @@ interface WellnessState {
   getWellnessScore: (unitId: string) => WellnessScore | undefined;
   getFallDetection: (unitId: string) => FallDetectionStatus | undefined;
   getSleepEnvironment: (unitId: string) => SleepEnvironment | undefined;
+  getCircadianData: (unitId: string) => CircadianData | undefined;
+  getBehavioralData: (unitId: string) => BehavioralData | undefined;
   getIEQHistory: (unitId: string) => IEQHistoryPoint[];
   calculateIEQScore: (unitId: string) => number;
 }
@@ -58,12 +68,16 @@ export const useWellnessStore = create<WellnessState>()(
       wellnessScores: {},
       fallDetectionStatus: {},
       sleepEnvironments: {},
+      circadianData: {},
+      behavioralData: {},
       ieqHistory: {},
       
       isLoadingIEQ: false,
       isLoadingScore: false,
       isLoadingFallRisk: false,
       isLoadingSleepEnv: false,
+      isLoadingCircadian: false,
+      isLoadingBehavioral: false,
       
       _hasHydrated: false,
       setHasHydrated: (state) => set({ _hasHydrated: state }),
@@ -122,13 +136,41 @@ export const useWellnessStore = create<WellnessState>()(
         }));
       },
       
+      // Fetch circadian data for a unit
+      fetchCircadianData: async (unitId: string) => {
+        set({ isLoadingCircadian: true });
+        await delays.standard();
+        
+        const data = getWellnessDataForUnit(unitId);
+        
+        set((state) => ({
+          circadianData: { ...state.circadianData, [unitId]: data.circadian },
+          isLoadingCircadian: false,
+        }));
+      },
+      
+      // Fetch behavioral data for a unit
+      fetchBehavioralData: async (unitId: string) => {
+        set({ isLoadingBehavioral: true });
+        await delays.standard();
+        
+        const data = getWellnessDataForUnit(unitId);
+        
+        set((state) => ({
+          behavioralData: { ...state.behavioralData, [unitId]: data.behavioral },
+          isLoadingBehavioral: false,
+        }));
+      },
+      
       // Refresh all wellness data for a unit
       refreshAllWellnessData: async (unitId: string) => {
         const { 
           fetchIEQData, 
           fetchWellnessScore, 
           fetchFallDetection, 
-          fetchSleepEnvironment 
+          fetchSleepEnvironment,
+          fetchCircadianData,
+          fetchBehavioralData
         } = get();
         
         await Promise.all([
@@ -136,6 +178,8 @@ export const useWellnessStore = create<WellnessState>()(
           fetchWellnessScore(unitId),
           fetchFallDetection(unitId),
           fetchSleepEnvironment(unitId),
+          fetchCircadianData(unitId),
+          fetchBehavioralData(unitId),
         ]);
       },
       
@@ -154,6 +198,14 @@ export const useWellnessStore = create<WellnessState>()(
       
       getSleepEnvironment: (unitId: string) => {
         return get().sleepEnvironments[unitId];
+      },
+      
+      getCircadianData: (unitId: string) => {
+        return get().circadianData[unitId];
+      },
+      
+      getBehavioralData: (unitId: string) => {
+        return get().behavioralData[unitId];
       },
       
       getIEQHistory: (unitId: string) => {

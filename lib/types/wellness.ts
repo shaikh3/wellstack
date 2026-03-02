@@ -124,3 +124,63 @@ export interface IEQHistoryPoint {
   pm25: number;
   voc: number;
 }
+
+// Circadian Lighting
+export interface CircadianSchedulePoint {
+  hour: number;
+  cct: number; // Kelvin
+  brightness: number; // 0-100%
+}
+
+export interface CircadianData {
+  currentCCT: number;
+  currentBrightness: number;
+  currentPhase: 'morning_energize' | 'daytime_focus' | 'evening_winddown' | 'night_mode';
+  melanopicEDI: number; // melanopic equivalent daylight illuminance
+  mEDITarget: number;
+  adherenceWeekly: number; // 0-100%
+  schedule: CircadianSchedulePoint[];
+  overrideActive: boolean;
+  trend: 'improving' | 'stable' | 'declining';
+}
+
+// Behavioral Patterns
+export interface BehavioralHeatmapDay {
+  day: string;
+  hours: number[]; // 24 values, 0-1 intensity
+}
+
+export interface BehavioralPatterns {
+  bathroom: { 
+    status: 'normal' | 'elevated' | 'low'; 
+    changePercent: number;
+    frequency: number;
+  };
+  kitchen: { 
+    status: 'regular' | 'declining' | 'minimal'; 
+    mealsDetected: number;
+  };
+  sleepWake: { 
+    status: 'consistent' | 'shifting' | 'irregular'; 
+    avgWake: string;
+    avgSleep: string;
+  };
+  mobility: { 
+    status: 'active' | 'declining' | 'sedentary'; 
+    dailyMinutes: number;
+  };
+}
+
+export interface BehavioralDeviation {
+  pattern: string;
+  message: string;
+  severity: 'info' | 'warning' | 'critical';
+}
+
+export interface BehavioralData {
+  adlConsistency: number; // 0-100
+  adlTrend: 'improving' | 'stable' | 'declining';
+  heatmap: BehavioralHeatmapDay[];
+  patterns: BehavioralPatterns;
+  activeDeviations: BehavioralDeviation[];
+}
