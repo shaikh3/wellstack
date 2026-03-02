@@ -9,3 +9,4 @@ export { BehavioralPatternCard } from './BehavioralPatternCard';
 export { InterventionStatusCard } from './InterventionStatusCard';
 export { CommunityIntelCard } from './CommunityIntelCard';
 export { WellnessScoreDetailView } from './WellnessScoreDetailView';
+export { RPMStatusCard } from './RPMStatusCard';

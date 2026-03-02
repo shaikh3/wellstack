@@ -42,6 +42,7 @@ import {
   BehavioralPatternCard,
   InterventionStatusCard,
   CommunityIntelCard,
+  RPMStatusCard,
 } from "@/components/wellness";
 
 // Device Control Components
@@ -340,6 +341,7 @@ export function UnitDetail({ propertyId, unitId }: { propertyId: string; unitId:
             <FallDetectionCard unitId={unitId} />
             <SleepEnvironmentCard unitId={unitId} />
             <InterventionStatusCard unitId={unitId} />
+            <RPMStatusCard unitId={unitId} />
             <CommunityIntelCard unitId={unitId} />
           </div>
         </div>
