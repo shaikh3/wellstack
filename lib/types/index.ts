@@ -1,4 +1,4 @@
-// WellStack P1 + P2 - TypeScript Types
+// WellStack P1 + P2 + P3 - TypeScript Types
 
 // Re-export wellness types from P2
 export type {
@@ -17,8 +17,75 @@ export type {
   IEQHistoryPoint,
 } from './wellness';
 
+// Re-export P3 alert types
+export type {
+  // Alert
+  AlertType,
+  AlertSeverity,
+  AlertStatus,
+  Alert as AlertP3,
+  AlertTriggerContext,
+  
+  // Escalation Workflow
+  WorkflowStatus,
+  StepAction,
+  StepChannel,
+  StepStatus,
+  RecipientType,
+  EscalationWorkflow,
+  EscalationStep,
+  
+  // Workflow Template
+  WorkflowCategory,
+  WorkflowTemplate,
+  WorkflowTemplateStep,
+  
+  // Alert Rule
+  TriggerSource,
+  TriggerCondition,
+  AlertRule,
+  PropertyRuleOverride,
+  
+  // RPM Enrollment
+  RPMStatus,
+  RPMDeviceType,
+  RPMDeviceStatus,
+  ReadingFrequency,
+  RPMEnrollment,
+  RPMCompliance,
+  MonthlyCompliance,
+  RPMDevice,
+  RPMReading,
+  
+  // Audit Log
+  AuditAction,
+  ActorType,
+  TargetType,
+  PHIType,
+  AuditLog,
+  
+  // Incident Report
+  IncidentType,
+  IncidentSeverity,
+  IncidentStatus,
+  IncidentReport,
+  
+  // Timeline
+  TimelineEntryType,
+  TimelineEntry,
+  
+  // Property Config
+  PropertyAlertConfig,
+  
+  // Filter & Stats
+  AlertFilter,
+  AlertDashboardStats,
+  RuleTestResult,
+} from './alerts';
+
 // Import for use in this file
 import type { IEQStatus, WellnessScore, FallRiskProfile, SleepEnvironment, InterventionConfig } from './wellness';
+import type { AlertP3 } from './alerts';
 
 // Organization
 export interface Portfolio {
@@ -130,7 +197,7 @@ export interface AccessLogEntry {
   method: 'pin' | 'app' | 'remote';
 }
 
-// Alerts
+// Legacy Alert (P1) - Extended by P3 AlertP3
 export type AlertSeverity = 'critical' | 'warning' | 'info';
 
 export interface Alert {
@@ -146,6 +213,22 @@ export interface Alert {
   acknowledgedAt?: Date;
   resolvedAt?: Date;
   workOrderId?: string;
+  
+  // P3 extension fields (optional for backward compatibility)
+  residentId?: string;
+  status?: 'open' | 'acknowledged' | 'resolved' | 'dismissed';
+  source?: string;
+  sourceId?: string;
+  assignedTo?: string;
+  assignedRole?: string;
+  assignedToName?: string;
+  acknowledgedBy?: string;
+  resolvedBy?: string;
+  resolution?: string;
+  resolutionNotes?: string;
+  workflowId?: string;
+  incidentId?: string;
+  tags?: string[];
 }
 
 // Activity Log
