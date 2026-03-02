@@ -84,9 +84,8 @@ export function PropertyWellnessDashboard({ propertyId }: PropertyWellnessDashbo
   const property = usePortfolioStore((state) => state.properties.find(p => p.id === propertyId));
   const allUnits = useUnitStore((state) => state.units);
   const units = useMemo(() => allUnits.filter(u => u.propertyId === propertyId), [allUnits, propertyId]);
-  const alerts = useAlertStore((state) =>
-    state.alerts.filter(a => a.propertyId === propertyId && !a.resolvedAt)
-  );
+  const allAlerts = useAlertStore((state) => state.alerts);
+  const alerts = useMemo(() => allAlerts.filter(a => a.propertyId === propertyId && !a.resolvedAt), [allAlerts, propertyId]);
 
   const unitScores = useMemo(() => generateUnitScores(units), [units]);
   const propertyTrend = useMemo(() => generatePropertyTrend(), []);

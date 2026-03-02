@@ -438,6 +438,414 @@ const mockBehavioralPatterns118: BehavioralPatterns = {
   ],
 };
 
+// ============================================================
+// Unit 204 — Healthy / Good (Dorothy Webb)
+// ============================================================
+
+// Unit 204 IEQ Status - Good readings
+const mockIEQStatus204: IEQStatus = {
+  current: {
+    timestamp: new Date(),
+    temperature: 72,
+    humidity: 48,
+    co2: 380,
+    voc: 120,
+    pm25: 5,
+  },
+  stats: {
+    temperature: { min: 70, max: 73, avg: 72 },
+    humidity: { min: 45, max: 50, avg: 48 },
+    co2: { min: 350, max: 420, avg: 380 },
+  },
+  compliance: {
+    overall: 'compliant',
+    pm25: true,
+    co2: true,
+    voc: true,
+    humidity: true,
+    temperature: true,
+  },
+  trend: 'stable',
+};
+
+// Unit 204 Wellness Score - 88/100
+const mockWellnessScore204: WellnessScore = {
+  overall: 88,
+  timestamp: new Date(),
+  components: {
+    ieq: 92,
+    sleep: 85,
+    safety: 90,
+    activity: 84,
+  },
+  trend: 'stable',
+  percentile: 78,
+};
+
+// Unit 204 Fall Detection Status - Low risk
+const mockFallDetectionStatus204: FallDetectionStatus = {
+  profile: {
+    level: 'low',
+    score: 18,
+    factors: {
+      gaitAnomaly: false,
+      nighttimeActivity: false,
+      environmentalHazards: [],
+      history: false,
+    },
+    lastAssessed: new Date(),
+  },
+  radarStatus: 'online',
+  coverage: ['Bedroom', 'Bathroom', 'Hallway'],
+  recentActivity: [
+    {
+      id: 'activity-204-1',
+      timestamp: hoursAgo(1),
+      type: 'zone_entry',
+      zone: 'Living Room',
+      details: 'Morning activity',
+    },
+    {
+      id: 'activity-204-2',
+      timestamp: hoursAgo(7),
+      type: 'nighttime_waking',
+      zone: 'Bathroom',
+      details: 'Brief bathroom visit',
+      severity: 'low',
+    },
+    {
+      id: 'activity-204-3',
+      timestamp: hoursAgo(10),
+      type: 'zone_entry',
+      zone: 'Bedroom',
+      details: 'Retired for the evening',
+    },
+  ],
+};
+
+// Unit 204 Sleep Environment - Optimal
+const mockSleepEnvironment204: SleepEnvironment = {
+  temperature: 69,
+  humidity: 48,
+  lightLevel: 0.3,
+  noiseLevel: 28,
+  circadianScore: 90,
+  lastLightExposure: hoursAgo(4),
+  recommendedBedtime: '9:30 PM',
+  status: 'optimal',
+  recommendations: [
+    'Maintain current bedroom temperature',
+    'Excellent sleep environment conditions',
+    'Continue current evening wind-down routine',
+  ],
+};
+
+// Unit 204 Circadian Status - Good adherence
+const mockCircadianStatus204: CircadianStatus = {
+  currentCCT: 4500,
+  currentBrightness: 80,
+  currentPhase: 'daytime_focus',
+  melanopicEDI: 270,
+  mEDITarget: 250,
+  adherenceWeekly: 89,
+  schedule: [
+    { hour: 0, cct: 1800, brightness: 0 },
+    { hour: 1, cct: 1800, brightness: 0 },
+    { hour: 2, cct: 1800, brightness: 0 },
+    { hour: 3, cct: 1800, brightness: 0 },
+    { hour: 4, cct: 1800, brightness: 0 },
+    { hour: 5, cct: 1800, brightness: 0 },
+    { hour: 6, cct: 2700, brightness: 30 },
+    { hour: 7, cct: 4000, brightness: 60 },
+    { hour: 8, cct: 5000, brightness: 80 },
+    { hour: 9, cct: 5500, brightness: 90 },
+    { hour: 10, cct: 5500, brightness: 100 },
+    { hour: 11, cct: 5500, brightness: 100 },
+    { hour: 12, cct: 5500, brightness: 100 },
+    { hour: 13, cct: 5500, brightness: 100 },
+    { hour: 14, cct: 5000, brightness: 90 },
+    { hour: 15, cct: 4500, brightness: 85 },
+    { hour: 16, cct: 4000, brightness: 80 },
+    { hour: 17, cct: 3500, brightness: 70 },
+    { hour: 18, cct: 3000, brightness: 60 },
+    { hour: 19, cct: 2700, brightness: 50 },
+    { hour: 20, cct: 2400, brightness: 40 },
+    { hour: 21, cct: 2000, brightness: 20 },
+    { hour: 22, cct: 1800, brightness: 5 },
+    { hour: 23, cct: 1800, brightness: 0 },
+  ],
+  overrideActive: false,
+  lastManualOverride: null,
+};
+
+// Unit 204 Behavioral Patterns - Normal/Healthy
+const mockBehavioralPatterns204: BehavioralPatterns = {
+  adlConsistency: 89,
+  adlTrend: 'stable',
+  heatmap: (() => {
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    return days.map(day => ({
+      day,
+      hours: Array.from({ length: 24 }, (_, h) => {
+        if (h >= 0 && h <= 5) return 0.05 + Math.random() * 0.1;
+        if (h === 6) return 0.35 + Math.random() * 0.15;
+        if (h >= 7 && h <= 8) return 0.65 + Math.random() * 0.15;
+        if (h >= 9 && h <= 11) return 0.7 + Math.random() * 0.2;
+        if (h === 12) return 0.75 + Math.random() * 0.15;
+        if (h >= 13 && h <= 16) return 0.55 + Math.random() * 0.25;
+        if (h >= 17 && h <= 19) return 0.6 + Math.random() * 0.2;
+        if (h >= 20 && h <= 21) return 0.35 + Math.random() * 0.2;
+        return 0.1 + Math.random() * 0.1;
+      }),
+    }));
+  })(),
+  patterns: {
+    bathroom: { status: 'normal', changePercent: 0 },
+    kitchen: { status: 'regular', mealsDetected: 3 },
+    sleepWake: { status: 'consistent', avgWake: '6:30 AM', avgSleep: '9:45 PM' },
+    mobility: { status: 'active', dailyMinutes: 135 },
+  },
+  activeDeviations: [],
+};
+
+// Generate good IEQ history for Unit 204
+function generateIEQHistory204(): IEQHistoryPoint[] {
+  const data: IEQHistoryPoint[] = [];
+  const now = new Date();
+
+  for (let i = 24; i >= 0; i--) {
+    const timestamp = new Date(now.getTime() - i * 60 * 60 * 1000);
+    data.push({
+      timestamp,
+      temperature: 72 + Math.sin(i * 0.5) * 1 + (Math.random() - 0.5) * 0.5,
+      humidity: 48 + Math.cos(i * 0.3) * 2 + (Math.random() - 0.5),
+      co2: 380 + Math.sin(i * 0.4) * 30 + (Math.random() - 0.5) * 20,
+      pm25: 5 + Math.random() * 3,
+      voc: 120 + Math.random() * 30,
+    });
+  }
+
+  return data;
+}
+
+// ============================================================
+// Unit 312 — Watch / Moderate Concern (Robert Chen)
+// ============================================================
+
+// Unit 312 IEQ Status - Borderline
+const mockIEQStatus312: IEQStatus = {
+  current: {
+    timestamp: new Date(),
+    temperature: 74,
+    humidity: 55,
+    co2: 820,
+    voc: 380,
+    pm25: 13,
+  },
+  stats: {
+    temperature: { min: 72, max: 76, avg: 74 },
+    humidity: { min: 50, max: 58, avg: 55 },
+    co2: { min: 700, max: 900, avg: 820 },
+  },
+  compliance: {
+    overall: 'warning',
+    pm25: true,
+    co2: true,
+    voc: true,
+    humidity: true,
+    temperature: true,
+  },
+  trend: 'declining',
+};
+
+// Unit 312 Wellness Score - 67/100
+const mockWellnessScore312: WellnessScore = {
+  overall: 67,
+  timestamp: new Date(),
+  components: {
+    ieq: 72,
+    sleep: 60,
+    safety: 75,
+    activity: 58,
+  },
+  trend: 'declining',
+  percentile: 32,
+};
+
+// Unit 312 Fall Detection Status - Medium risk
+const mockFallDetectionStatus312: FallDetectionStatus = {
+  profile: {
+    level: 'medium',
+    score: 48,
+    factors: {
+      gaitAnomaly: false,
+      nighttimeActivity: true,
+      environmentalHazards: [],
+      history: false,
+    },
+    lastAssessed: new Date(),
+  },
+  radarStatus: 'online',
+  coverage: ['Bedroom', 'Bathroom', 'Hallway'],
+  recentActivity: [
+    {
+      id: 'activity-312-1',
+      timestamp: hoursAgo(2),
+      type: 'zone_entry',
+      zone: 'Living Room',
+      details: 'Minimal movement detected',
+    },
+    {
+      id: 'activity-312-2',
+      timestamp: hoursAgo(5),
+      type: 'nighttime_waking',
+      zone: 'Bathroom',
+      details: 'Extended bathroom visit — 15 minutes',
+      severity: 'medium',
+    },
+    {
+      id: 'activity-312-3',
+      timestamp: hoursAgo(9),
+      type: 'nighttime_waking',
+      zone: 'Bathroom',
+      details: 'Second nighttime bathroom visit',
+      severity: 'low',
+    },
+    {
+      id: 'activity-312-4',
+      timestamp: hoursAgo(18),
+      type: 'zone_entry',
+      zone: 'Kitchen',
+      details: 'Brief kitchen activity',
+    },
+    {
+      id: 'activity-312-5',
+      timestamp: hoursAgo(26),
+      type: 'zone_exit',
+      zone: 'Unit',
+      details: 'Left unit briefly',
+    },
+  ],
+};
+
+// Unit 312 Sleep Environment - Fair
+const mockSleepEnvironment312: SleepEnvironment = {
+  temperature: 74,
+  humidity: 55,
+  lightLevel: 4,
+  noiseLevel: 38,
+  circadianScore: 58,
+  lastLightExposure: hoursAgo(1),
+  recommendedBedtime: '10:00 PM',
+  status: 'fair',
+  recommendations: [
+    'Reduce bedroom temperature to 68-70\u00B0F for better sleep',
+    'Dim lights earlier in the evening',
+    'Consider addressing humidity levels',
+  ],
+};
+
+// Unit 312 Circadian Status - Moderate adherence
+const mockCircadianStatus312: CircadianStatus = {
+  currentCCT: 4000,
+  currentBrightness: 75,
+  currentPhase: 'daytime_focus',
+  melanopicEDI: 220,
+  mEDITarget: 250,
+  adherenceWeekly: 62,
+  schedule: [
+    { hour: 0, cct: 1800, brightness: 0 },
+    { hour: 1, cct: 1800, brightness: 0 },
+    { hour: 2, cct: 1800, brightness: 0 },
+    { hour: 3, cct: 1800, brightness: 0 },
+    { hour: 4, cct: 1800, brightness: 0 },
+    { hour: 5, cct: 1800, brightness: 0 },
+    { hour: 6, cct: 2700, brightness: 30 },
+    { hour: 7, cct: 4000, brightness: 60 },
+    { hour: 8, cct: 5000, brightness: 80 },
+    { hour: 9, cct: 5500, brightness: 90 },
+    { hour: 10, cct: 5500, brightness: 100 },
+    { hour: 11, cct: 5500, brightness: 100 },
+    { hour: 12, cct: 5500, brightness: 100 },
+    { hour: 13, cct: 5500, brightness: 100 },
+    { hour: 14, cct: 5000, brightness: 90 },
+    { hour: 15, cct: 4500, brightness: 85 },
+    { hour: 16, cct: 4000, brightness: 80 },
+    { hour: 17, cct: 3500, brightness: 70 },
+    { hour: 18, cct: 3000, brightness: 60 },
+    { hour: 19, cct: 2700, brightness: 50 },
+    { hour: 20, cct: 2400, brightness: 40 },
+    { hour: 21, cct: 2000, brightness: 20 },
+    { hour: 22, cct: 1800, brightness: 5 },
+    { hour: 23, cct: 1800, brightness: 0 },
+  ],
+  overrideActive: false,
+  lastManualOverride: hoursAgo(48),
+};
+
+// Unit 312 Behavioral Patterns - Declining
+const mockBehavioralPatterns312: BehavioralPatterns = {
+  adlConsistency: 58,
+  adlTrend: 'declining',
+  heatmap: (() => {
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    return days.map(day => ({
+      day,
+      hours: Array.from({ length: 24 }, (_, h) => {
+        if (h >= 0 && h <= 4) return 0.05 + Math.random() * 0.08;
+        if (h === 5) return 0.15 + Math.random() * 0.1;
+        if (h >= 6 && h <= 8) return 0.2 + Math.random() * 0.15;
+        if (h >= 9 && h <= 11) return 0.35 + Math.random() * 0.2;
+        if (h === 12) return 0.4 + Math.random() * 0.15;
+        if (h >= 13 && h <= 16) return 0.25 + Math.random() * 0.2;
+        if (h >= 17 && h <= 19) return 0.3 + Math.random() * 0.15;
+        if (h >= 20 && h <= 21) return 0.2 + Math.random() * 0.15;
+        return 0.08 + Math.random() * 0.1;
+      }),
+    }));
+  })(),
+  patterns: {
+    bathroom: { status: 'elevated', changePercent: 18 },
+    kitchen: { status: 'declining', mealsDetected: 2 },
+    sleepWake: { status: 'shifting', avgWake: '8:30 AM', avgSleep: '11:45 PM' },
+    mobility: { status: 'declining', dailyMinutes: 65 },
+  },
+  activeDeviations: [
+    {
+      pattern: 'activity',
+      message: 'Daily activity has declined 28% over the past 2 weeks',
+      severity: 'warning',
+    },
+    {
+      pattern: 'bathroom',
+      message: 'Nighttime bathroom visits have increased — 2-3 per night vs. baseline of 1',
+      severity: 'info',
+    },
+  ],
+};
+
+// Generate borderline IEQ history for Unit 312 (declining trend: 73 -> 67)
+function generateIEQHistory312(): IEQHistoryPoint[] {
+  const data: IEQHistoryPoint[] = [];
+  const now = new Date();
+
+  for (let i = 24; i >= 0; i--) {
+    const timestamp = new Date(now.getTime() - i * 60 * 60 * 1000);
+    // Gradual worsening trend
+    const trendFactor = (24 - i) / 24;
+    data.push({
+      timestamp,
+      temperature: 73 + trendFactor * 1.5 + Math.sin(i * 0.4) * 1 + (Math.random() - 0.5),
+      humidity: 52 + trendFactor * 3 + Math.cos(i * 0.3) * 2 + (Math.random() - 0.5),
+      co2: 720 + trendFactor * 100 + Math.sin(i * 0.4) * 40 + (Math.random() - 0.5) * 30,
+      pm25: 10 + trendFactor * 3 + Math.random() * 3,
+      voc: 320 + trendFactor * 60 + Math.random() * 40,
+    });
+  }
+
+  return data;
+}
+
 // Generate degraded IEQ history for Unit 118
 function generateIEQHistory118(): IEQHistoryPoint[] {
   const data: IEQHistoryPoint[] = [];
@@ -561,6 +969,24 @@ export const wellnessDataByUnit: Record<string, {
     circadian: mockCircadianStatus118,
     behavioral: mockBehavioralPatterns118,
     history: generateIEQHistory118(),
+  },
+  '204': {
+    ieq: mockIEQStatus204,
+    wellnessScore: mockWellnessScore204,
+    fallDetection: mockFallDetectionStatus204,
+    sleepEnvironment: mockSleepEnvironment204,
+    circadian: mockCircadianStatus204,
+    behavioral: mockBehavioralPatterns204,
+    history: generateIEQHistory204(),
+  },
+  '312': {
+    ieq: mockIEQStatus312,
+    wellnessScore: mockWellnessScore312,
+    fallDetection: mockFallDetectionStatus312,
+    sleepEnvironment: mockSleepEnvironment312,
+    circadian: mockCircadianStatus312,
+    behavioral: mockBehavioralPatterns312,
+    history: generateIEQHistory312(),
   },
 };
 

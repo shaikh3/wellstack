@@ -323,6 +323,339 @@ export const demoUnit2B: Unit = {
   communityScore: 8,
 };
 
+// Dorothy Webb - Demo Resident (Unit 204)
+export const demoResident204: Resident = {
+  id: 'resident-dorothy-webb',
+  name: 'Dorothy Webb',
+  email: 'dorothy.webb@email.com',
+  phone: '(512) 555-0234',
+  leaseStart: new Date('2024-03-01'),
+  leaseEnd: new Date('2025-03-01'),
+  accessCode: '6741',
+};
+
+// Devices for Unit 204 - all healthy and online
+export const demoDevices204: Device[] = [
+  {
+    id: 'lock-204',
+    unitId: '204',
+    name: 'Front Door',
+    type: 'lock',
+    status: 'online',
+    batteryLevel: 92,
+    lastSeenAt: minutesAgo(1),
+    state: { type: 'lock', locked: true, lastUsedAt: hoursAgo(3) },
+  },
+  {
+    id: 'therm-204',
+    unitId: '204',
+    name: 'Living Room Thermostat',
+    type: 'thermostat',
+    status: 'online',
+    lastSeenAt: minutesAgo(1),
+    state: { type: 'thermostat', temperature: 72, targetTemp: 72, mode: 'cool' },
+  },
+  {
+    id: 'motion-204',
+    unitId: '204',
+    name: 'Living Room Motion',
+    type: 'motion_sensor',
+    status: 'online',
+    lastSeenAt: minutesAgo(0),
+    state: { type: 'motion_sensor', motionDetected: true, lastMotionAt: minutesAgo(5) },
+  },
+  {
+    id: 'contact-204',
+    unitId: '204',
+    name: 'Front Door Contact',
+    type: 'contact_sensor',
+    status: 'online',
+    lastSeenAt: minutesAgo(2),
+    state: { type: 'contact_sensor', open: false },
+  },
+  {
+    id: 'leak-204',
+    unitId: '204',
+    name: 'Kitchen Leak Sensor',
+    type: 'leak_sensor',
+    status: 'online',
+    lastSeenAt: minutesAgo(3),
+    state: { type: 'leak_sensor', wet: false, location: 'Under kitchen sink' },
+  },
+  {
+    id: 'leak-204-bath',
+    unitId: '204',
+    name: 'Bathroom Leak Sensor',
+    type: 'leak_sensor',
+    status: 'online',
+    lastSeenAt: minutesAgo(3),
+    state: { type: 'leak_sensor', wet: false, location: 'Under bathroom sink' },
+  },
+];
+
+// P2 IEQ Status for Unit 204 - Good readings
+const demoIEQStatus204: IEQStatus = {
+  current: {
+    timestamp: new Date(),
+    temperature: 72,
+    humidity: 48,
+    co2: 380,
+    voc: 120,
+    pm25: 5,
+  },
+  stats: {
+    temperature: { min: 70, max: 73, avg: 72 },
+    humidity: { min: 45, max: 50, avg: 48 },
+    co2: { min: 350, max: 420, avg: 380 },
+  },
+  compliance: {
+    overall: 'compliant',
+    pm25: true,
+    co2: true,
+    voc: true,
+    humidity: true,
+    temperature: true,
+  },
+  trend: 'stable',
+};
+
+// P2 Wellness Score for Unit 204 - 88/100
+const demoWellnessScore204: WellnessScore = {
+  overall: 88,
+  timestamp: new Date(),
+  components: {
+    ieq: 92,
+    sleep: 85,
+    safety: 90,
+    activity: 84,
+  },
+  trend: 'stable',
+  percentile: 78,
+};
+
+// P2 Fall Risk Profile for Unit 204 - Low risk
+const demoFallRiskProfile204: FallRiskProfile = {
+  level: 'low',
+  score: 18,
+  factors: {
+    gaitAnomaly: false,
+    nighttimeActivity: false,
+    environmentalHazards: [],
+    history: false,
+  },
+  lastAssessed: new Date(),
+};
+
+// P2 Sleep Environment for Unit 204 - Optimal
+const demoSleepEnvironment204: SleepEnvironment = {
+  temperature: 69,
+  humidity: 48,
+  lightLevel: 0.3,
+  noiseLevel: 28,
+  circadianScore: 90,
+  lastLightExposure: hoursAgo(4),
+  recommendedBedtime: '9:30 PM',
+  status: 'optimal',
+  recommendations: [
+    'Maintain current bedroom temperature',
+    'Excellent sleep environment conditions',
+    'Continue current evening wind-down routine',
+  ],
+};
+
+// P2 Intervention Config for Unit 204 - Standby
+const demoInterventionConfig204: InterventionConfig = {
+  status: 'standby',
+  thresholds: [
+    { metric: 'Wellness Score', operator: 'lt', value: 70, action: 'notify' },
+    { metric: 'Fall Risk', operator: 'eq', value: 3, action: 'escalate' },
+    { metric: 'IEQ Violation', operator: 'eq', value: 1, action: 'maintenance' },
+  ],
+};
+
+// Demo Unit 204 - Healthy / Good scenario (Dorothy Webb)
+export const demoUnit204: Unit = {
+  id: '204',
+  buildingId: 'building-b',
+  propertyId: 'lakeview-commons',
+  unitNumber: '204',
+  floor: 2,
+  status: 'occupied',
+  resident: demoResident204,
+  devices: demoDevices204,
+  ieqStatus: demoIEQStatus204,
+  wellnessScore: demoWellnessScore204,
+  fallRiskProfile: demoFallRiskProfile204,
+  sleepEnvironment: demoSleepEnvironment204,
+  interventionConfig: demoInterventionConfig204,
+  fallRisk: 'low',
+  interventionStatus: 'standby',
+  communityScore: 9,
+};
+
+// Robert Chen - Demo Resident (Unit 312)
+export const demoResident312: Resident = {
+  id: 'resident-robert-chen',
+  name: 'Robert Chen',
+  email: 'robert.chen@email.com',
+  phone: '(512) 555-0312',
+  leaseStart: new Date('2023-08-01'),
+  leaseEnd: new Date('2025-08-01'),
+  accessCode: '3829',
+};
+
+// Devices for Unit 312 - some concerns
+export const demoDevices312: Device[] = [
+  {
+    id: 'lock-312',
+    unitId: '312',
+    name: 'Front Door',
+    type: 'lock',
+    status: 'online',
+    batteryLevel: 78,
+    lastSeenAt: minutesAgo(2),
+    state: { type: 'lock', locked: true, lastUsedAt: hoursAgo(8) },
+  },
+  {
+    id: 'therm-312',
+    unitId: '312',
+    name: 'Living Room Thermostat',
+    type: 'thermostat',
+    status: 'online',
+    batteryLevel: 45,
+    lastSeenAt: minutesAgo(3),
+    state: { type: 'thermostat', temperature: 74, targetTemp: 73, mode: 'cool' },
+  },
+  {
+    id: 'motion-312',
+    unitId: '312',
+    name: 'Living Room Motion',
+    type: 'motion_sensor',
+    status: 'warning',
+    lastSeenAt: minutesAgo(15),
+    state: { type: 'motion_sensor', motionDetected: false, lastMotionAt: hoursAgo(2) },
+  },
+  {
+    id: 'contact-312',
+    unitId: '312',
+    name: 'Front Door Contact',
+    type: 'contact_sensor',
+    status: 'online',
+    lastSeenAt: minutesAgo(4),
+    state: { type: 'contact_sensor', open: false },
+  },
+  {
+    id: 'leak-312',
+    unitId: '312',
+    name: 'Kitchen Leak Sensor',
+    type: 'leak_sensor',
+    status: 'online',
+    lastSeenAt: minutesAgo(5),
+    state: { type: 'leak_sensor', wet: false, location: 'Under kitchen sink' },
+  },
+];
+
+// P2 IEQ Status for Unit 312 - Borderline
+const demoIEQStatus312: IEQStatus = {
+  current: {
+    timestamp: new Date(),
+    temperature: 74,
+    humidity: 55,
+    co2: 820,
+    voc: 380,
+    pm25: 13,
+  },
+  stats: {
+    temperature: { min: 72, max: 76, avg: 74 },
+    humidity: { min: 50, max: 58, avg: 55 },
+    co2: { min: 700, max: 900, avg: 820 },
+  },
+  compliance: {
+    overall: 'warning',
+    pm25: true,
+    co2: true,
+    voc: true,
+    humidity: true,
+    temperature: true,
+  },
+  trend: 'declining',
+};
+
+// P2 Wellness Score for Unit 312 - 67/100
+const demoWellnessScore312: WellnessScore = {
+  overall: 67,
+  timestamp: new Date(),
+  components: {
+    ieq: 72,
+    sleep: 60,
+    safety: 75,
+    activity: 58,
+  },
+  trend: 'declining',
+  percentile: 32,
+};
+
+// P2 Fall Risk Profile for Unit 312 - Medium risk
+const demoFallRiskProfile312: FallRiskProfile = {
+  level: 'medium',
+  score: 48,
+  factors: {
+    gaitAnomaly: false,
+    nighttimeActivity: true,
+    environmentalHazards: [],
+    history: false,
+  },
+  lastAssessed: new Date(),
+};
+
+// P2 Sleep Environment for Unit 312 - Fair
+const demoSleepEnvironment312: SleepEnvironment = {
+  temperature: 74,
+  humidity: 55,
+  lightLevel: 4,
+  noiseLevel: 38,
+  circadianScore: 58,
+  lastLightExposure: hoursAgo(1),
+  recommendedBedtime: '10:00 PM',
+  status: 'fair',
+  recommendations: [
+    'Reduce bedroom temperature to 68-70\u00B0F for better sleep',
+    'Dim lights earlier in the evening',
+    'Consider addressing humidity levels',
+  ],
+};
+
+// P2 Intervention Config for Unit 312 - Monitoring
+const demoInterventionConfig312: InterventionConfig = {
+  status: 'monitoring',
+  thresholds: [
+    { metric: 'Wellness Score', operator: 'lt', value: 70, action: 'notify' },
+    { metric: 'Fall Risk', operator: 'eq', value: 3, action: 'escalate' },
+    { metric: 'IEQ Violation', operator: 'eq', value: 1, action: 'maintenance' },
+  ],
+  lastTriggered: hoursAgo(48),
+};
+
+// Demo Unit 312 - Watch / Moderate concern (Robert Chen)
+export const demoUnit312: Unit = {
+  id: '312',
+  buildingId: 'building-b',
+  propertyId: 'lakeview-commons',
+  unitNumber: '312',
+  floor: 3,
+  status: 'occupied',
+  resident: demoResident312,
+  devices: demoDevices312,
+  ieqStatus: demoIEQStatus312,
+  wellnessScore: demoWellnessScore312,
+  fallRiskProfile: demoFallRiskProfile312,
+  sleepEnvironment: demoSleepEnvironment312,
+  interventionConfig: demoInterventionConfig312,
+  fallRisk: 'medium',
+  interventionStatus: 'active',
+  communityScore: 5,
+};
+
 // Generate units for Building A
 const generateUnits = (buildingId: string, propertyId: string, prefix: string, floorCount: number, unitsPerFloor: number): Unit[] => {
   const units: Unit[] = [];
@@ -385,9 +718,11 @@ const generateUnits = (buildingId: string, propertyId: string, prefix: string, f
     units[demoIndex] = demoUnit2B;
   }
 
-  // Inject Unit 118 into Building B
+  // Inject demo units into Building B
   if (buildingId === 'building-b') {
     units.push(demoUnit118);
+    units.push(demoUnit204);
+    units.push(demoUnit312);
   }
 
   return units;

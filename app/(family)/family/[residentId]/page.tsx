@@ -9,6 +9,8 @@ interface Props {
 const familyResidentIds = [
   'resident-margaret-chen',
   'resident-harold-finch',
+  'resident-dorothy-webb',
+  'resident-robert-chen',
 ];
 
 export function generateStaticParams() {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { 
@@ -221,9 +221,8 @@ export function UnitDetail({ propertyId, unitId }: { propertyId: string; unitId:
     state.properties.find(p => p.id === propertyId)
   );
   const unit = useUnitStore((state) => state.units.find(u => u.id === unitId));
-  const alerts = useAlertStore((state) => 
-    state.alerts.filter(a => a.unitId === unitId && !a.resolvedAt)
-  );
+  const allAlerts = useAlertStore((state) => state.alerts);
+  const alerts = useMemo(() => allAlerts.filter(a => a.unitId === unitId && !a.resolvedAt), [allAlerts, unitId]);
   const refreshAllWellnessData = useWellnessStore((state) => state.refreshAllWellnessData);
 
   // Load wellness data on mount

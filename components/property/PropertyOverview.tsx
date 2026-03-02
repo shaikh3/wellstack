@@ -28,9 +28,8 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { PropertyWellnessDashboard } from "@/components/property/PropertyWellnessDashboard";
 
 function UnitGridCell({ unit, propertyId }: { unit: Unit; propertyId: string }) {
-  const alerts = useAlertStore((state) => 
-    state.alerts.filter(a => a.unitId === unit.id && !a.resolvedAt)
-  );
+  const allAlerts = useAlertStore((state) => state.alerts);
+  const alerts = useMemo(() => allAlerts.filter(a => a.unitId === unit.id && !a.resolvedAt), [allAlerts, unit.id]);
   const hasAlert = alerts.length > 0;
   const criticalAlert = alerts.some(a => a.severity === 'critical');
 
