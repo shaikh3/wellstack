@@ -25,6 +25,7 @@ import { useUnitStore } from "@/lib/store/unitStore";
 import { useAlertStore } from "@/lib/store/alertStore";
 import { Unit, UnitStatus } from "@/lib/types";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { PropertyWellnessDashboard } from "@/components/property/PropertyWellnessDashboard";
 
 function UnitGridCell({ unit, propertyId }: { unit: Unit; propertyId: string }) {
   const alerts = useAlertStore((state) => 
@@ -203,6 +204,7 @@ export function PropertyOverview({ propertyId }: { propertyId: string }) {
       <Tabs defaultValue="units" className="space-y-4">
         <TabsList>
           <TabsTrigger value="units">Units</TabsTrigger>
+          <TabsTrigger value="wellness">Wellness</TabsTrigger>
           <TabsTrigger value="alerts">Alerts ({criticalAlerts.length + warningAlerts.length})</TabsTrigger>
           <TabsTrigger value="devices">Devices</TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
@@ -246,6 +248,10 @@ export function PropertyOverview({ propertyId }: { propertyId: string }) {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="wellness">
+          <PropertyWellnessDashboard propertyId={propertyId} />
         </TabsContent>
 
         <TabsContent value="alerts">
