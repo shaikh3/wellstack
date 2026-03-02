@@ -35,19 +35,46 @@
 ## P2: Wellness Intelligence ✅ COMPLETE
 
 ### Data Layer ✅
-- [x] `lib/types/wellness.ts` - TypeScript interfaces for IEQ, WellnessScore, FallRisk, SleepEnvironment
-- [x] `lib/mock/wellnessData.ts` - Mock data for Unit 2B with realistic readings
-- [x] `lib/store/wellnessStore.ts` - Zustand store for wellness state management
+- [x] `lib/types/wellness.ts` - TypeScript interfaces for IEQ, WellnessScore, FallRisk, SleepEnvironment, Circadian, Behavioral
+- [x] `lib/mock/wellnessData.ts` - Mock data for Unit 2B, Unit 118 (critical), Unit 204 (healthy), Unit 312 (watch)
+- [x] `lib/store/wellnessStore.ts` - Zustand store with circadian and behavioral data support
 - [x] Updated `lib/types/index.ts` to export wellness types
 - [x] Updated `lib/mock/data.ts` with new P2 wellness data structures
 
 ### Components ✅
-- [x] `components/wellness/IEQCard.tsx` - Real IEQ monitoring with:
-  - Real-time readings (Temperature, Humidity, CO2, VOC, PM2.5)
-  - 24h mini sparkline charts using Recharts
-  - WELL v2 compliance badges
-  - Alert indicators
-  - Trend indicators
+- [x] `components/wellness/IEQCard.tsx` - IEQ monitoring with WELL v2 compliance
+- [x] `components/wellness/WellnessScoreCard.tsx` - Score with component breakdown
+- [x] `components/wellness/FallDetectionCard.tsx` - Risk assessment with activity log
+- [x] `components/wellness/SleepEnvironmentCard.tsx` - Sleep conditions and circadian score
+- [x] `components/wellness/CircadianCard.tsx` - 24h timeline with M-EDI values and adherence
+- [x] `components/wellness/BehavioralPatternCard.tsx` - ADL score, 7×24 heatmap, pattern indicators
+- [x] `components/wellness/InterventionStatusCard.tsx` - Full 3-tier escalation (Tier 1/2/3) with SLA tracking
+- [x] `components/wellness/CommunityIntelCard.tsx` - Community metrics (P4 preview)
+
+### Detail Pages ✅
+- [x] `app/(dashboard)/properties/[propertyId]/units/[unitId]/ieq/page.tsx` - Full IEQ detail with:
+  - 5 metric cards with WELL threshold indicators
+  - 7-day historical charts
+  - Data quality caveat on VOC sensors
+- [x] `app/(dashboard)/properties/[propertyId]/units/[unitId]/wellness/page.tsx` - Wellness Score detail with:
+  - Score breakdown by component
+  - 30-day trend chart
+  - COMPOUND RISK PANEL for Unit 118 (3 signals converging)
+
+### Demo Data ✅
+- [x] **Unit 204 (Sarah Mitchell)** - Score 88, all green, healthy resident
+- [x] **Unit 312 (Robert Chen)** - Score 67, yellow watch, moderate risk
+- [x] **Unit 118 (Eleanor Vasquez)** - Score 42, critical at-risk:
+  - CO2 1050ppm, TVOC 620ppb, PM2.5 22µg/m³ (non-compliant)
+  - Active fall event 6h ago, fall risk score 82
+  - 72-hour social isolation flag
+  - ADL score 38/100, minimal meals (1/day)
+  - Compound risk panel triggers with 3 converging signals
+
+### Integration ✅
+- [x] `components/unit/UnitDetail.tsx` - All wellness cards integrated
+- [x] Routing for IEQ and Wellness detail pages
+- [x] Breadcrumb navigation
   
 - [x] `components/wellness/WellnessScoreCard.tsx` - Score display with:
   - Large circular animated score (87/100 for Unit 2B)
