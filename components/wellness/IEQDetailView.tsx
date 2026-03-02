@@ -105,7 +105,7 @@ const METRIC_CONFIG = [
 
 export function IEQDetailView({ propertyId, unitId }: IEQDetailViewProps) {
   const property = usePortfolioStore((state) => state.properties.find(p => p.id === propertyId));
-  const unit = useUnitStore((state) => state.getUnitById(unitId));
+  const unit = useUnitStore((state) => state.units.find(u => u.id === unitId));
   const { getIEQData, fetchIEQData, _hasHydrated } = useWellnessStore();
 
   const [mounted, setMounted] = useState(false);

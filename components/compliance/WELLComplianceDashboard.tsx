@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import {
@@ -91,7 +91,8 @@ function generateComplianceTrend() {
 
 export function WELLComplianceDashboard({ propertyId }: WELLComplianceDashboardProps) {
   const property = usePortfolioStore((state) => state.properties.find(p => p.id === propertyId));
-  const units = useUnitStore((state) => state.getUnitsByProperty(propertyId));
+  const allUnits = useUnitStore((state) => state.units);
+  const units = useMemo(() => allUnits.filter(u => u.propertyId === propertyId), [allUnits, propertyId]);
   const occupiedCount = units.filter(u => u.status === 'occupied').length;
 
   const metricCompliance = useMemo(() => generateMetricCompliance(occupiedCount), [occupiedCount]);

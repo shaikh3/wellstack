@@ -112,7 +112,7 @@ function generateScoreEvents() {
 
 export function WellnessScoreDetailView({ propertyId, unitId }: WellnessScoreDetailViewProps) {
   const property = usePortfolioStore((state) => state.properties.find(p => p.id === propertyId));
-  const unit = useUnitStore((state) => state.getUnitById(unitId));
+  const unit = useUnitStore((state) => state.units.find(u => u.id === unitId));
   const { getWellnessScore, fetchWellnessScore, _hasHydrated } = useWellnessStore();
 
   const [mounted, setMounted] = useState(false);

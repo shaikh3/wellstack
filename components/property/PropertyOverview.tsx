@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { 
@@ -108,13 +108,11 @@ export function PropertyOverview({ propertyId }: { propertyId: string }) {
   const property = usePortfolioStore((state) => 
     state.properties.find(p => p.id === propertyId)
   );
-  const units = useUnitStore((state) => state.getUnitsByProperty(propertyId));
-  const criticalAlerts = useAlertStore((state) => 
-    state.getCriticalAlerts().filter(a => a.propertyId === propertyId)
-  );
-  const warningAlerts = useAlertStore((state) => 
-    state.getWarningAlerts().filter(a => a.propertyId === propertyId)
-  );
+  const allUnits = useUnitStore((state) => state.units);
+  const units = useMemo(() => allUnits.filter(u => u.propertyId === propertyId), [allUnits, propertyId]);
+  const allAlerts = useAlertStore((state) => state.alerts);
+  const criticalAlerts = useMemo(() => allAlerts.filter(a => a.propertyId === propertyId && a.severity === 'critical' && !a.resolvedAt), [allAlerts, propertyId]);
+  const warningAlerts = useMemo(() => allAlerts.filter(a => a.propertyId === propertyId && a.severity === 'warning' && !a.resolvedAt), [allAlerts, propertyId]);
 
   const [viewMode, setViewMode] = useState<'detail' | 'list'>('detail');
 

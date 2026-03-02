@@ -220,7 +220,7 @@ export function UnitDetail({ propertyId, unitId }: { propertyId: string; unitId:
   const property = usePortfolioStore((state) => 
     state.properties.find(p => p.id === propertyId)
   );
-  const unit = useUnitStore((state) => state.getUnitById(unitId));
+  const unit = useUnitStore((state) => state.units.find(u => u.id === unitId));
   const alerts = useAlertStore((state) => 
     state.alerts.filter(a => a.unitId === unitId && !a.resolvedAt)
   );

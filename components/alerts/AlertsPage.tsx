@@ -107,9 +107,7 @@ function AlertCard({ alert, expanded, onToggle }: { alert: Alert; expanded: bool
   const acknowledgeAlert = useAlertStore((state) => state.acknowledgeAlert);
   const resolveAlert = useAlertStore((state) => state.resolveAlert);
   const createWorkOrder = useAlertStore((state) => state.createWorkOrder);
-  const getUnitById = useUnitStore((state) => state.getUnitById);
-
-  const unit = getUnitById(alert.unitId);
+  const unit = useUnitStore((state) => state.units.find(u => u.id === alert.unitId));
   const typeMeta = ALERT_TYPE_META[alert.type] || { icon: Bell, label: alert.type, category: "Other" };
   const TypeIcon = typeMeta.icon;
 
