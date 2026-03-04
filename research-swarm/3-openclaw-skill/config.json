@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WellStack Senior Living Configuration",
+  "type": "object",
+  "properties": {
+    "facility_id": {
+      "type": "string",
+      "description": "Your WellStack facility ID",
+      "pattern": "^FAC-[A-Z0-9]{6}$"
+    },
+    "facility_name": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "api_endpoint": {
+      "type": "string",
+      "format": "uri",
+      "default": "https://api.wellstack.io/v2"
+    },
+    "api_key": {
+      "type": "string",
+      "minLength": 32
+    },
+    "ehr_integration": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "enum": ["epic", "cerner", "matrixcare", "pointclickcare", "none"]
+        },
+        "facility_code": { "type": "string" }
+      }
+    },
+    "alert_thresholds": {
+      "type": "object",
+      "properties": {
+        "co2_ppm": { "type": "number", "default": 1000 },
+        "temperature_f": {
+          "type": "object",
+          "properties": {
+            "min": { "type": "number", "default": 68 },
+            "max": { "type": "number", "default": 78 }
+          }
+        },
+        "fall_risk_score": { "type": "number", "default": 75 }
+      }
+    }
+  },
+  "required": ["facility_id", "api_key"]
+}

@@ -1,0 +1,29 @@
+{
+  "ownerId": "senior-living-ops",
+  "slug": "senior-living-ops",
+  "version": "1.0.0",
+  "publishedAt": 1767545344344,
+  "name": "Senior Living Operations",
+  "description": "Comprehensive senior living facility operations management - resident wellness checks, IEQ alerts, family notifications, and daily reporting with WellStack integration.",
+  "author": "OpenClaw",
+  "license": "MIT",
+  "keywords": [
+    "senior-living",
+    "healthcare",
+    "wellness",
+    "facility-management",
+    "IEQ",
+    "alerts",
+    "notifications"
+  ],
+  "categories": ["healthcare", "operations", "facility-management"],
+  "requires": {
+    "node": ">=18.0.0"
+  },
+  "permissions": [
+    "database.read",
+    "database.write",
+    "message.send",
+    "files.write"
+  ]
+}

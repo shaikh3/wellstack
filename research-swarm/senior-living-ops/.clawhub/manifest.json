@@ -1,0 +1,86 @@
+{
+  "manifestVersion": "1.0.0",
+  "skill": {
+    "name": "senior-living-ops",
+    "version": "1.0.0",
+    "description": "Comprehensive senior living facility operations management",
+    "entryPoint": "index.ts",
+    "documentation": "SKILL.md"
+  },
+  "tools": [
+    {
+      "name": "wellness_check",
+      "description": "Perform structured wellness checks for residents",
+      "parameters": {
+        "resident_id": { "type": "string", "required": true },
+        "check_type": { "type": "string", "enum": ["morning", "afternoon", "evening", "incident", "scheduled"], "required": true },
+        "vitals": { "type": "object", "required": false },
+        "staff_id": { "type": "string", "required": true }
+      }
+    },
+    {
+      "name": "ieq_alert_escalate",
+      "description": "Process and escalate Indoor Environmental Quality alerts",
+      "parameters": {
+        "alert_id": { "type": "string", "required": true },
+        "sensor_type": { "type": "string", "required": true },
+        "location": { "type": "string", "required": true },
+        "severity": { "type": "string", "enum": ["low", "medium", "high", "critical"], "required": true },
+        "current_value": { "type": "number", "required": true },
+        "threshold_value": { "type": "number", "required": true }
+      }
+    },
+    {
+      "name": "family_notify",
+      "description": "Send notifications to resident family members",
+      "parameters": {
+        "resident_id": { "type": "string", "required": true },
+        "notification_type": { "type": "string", "required": true },
+        "family_contacts": { "type": "array", "required": true },
+        "message_content": { "type": "object", "required": true }
+      }
+    },
+    {
+      "name": "daily_ops_report",
+      "description": "Generate comprehensive daily operations report",
+      "parameters": {
+        "facility_id": { "type": "string", "required": true },
+        "report_date": { "type": "string", "required": false },
+        "report_type": { "type": "string", "enum": ["summary", "detailed", "executive", "compliance"], "required": false }
+      }
+    },
+    {
+      "name": "wellstack_mock_data",
+      "description": "Generate realistic mock data for testing and training",
+      "parameters": {
+        "data_type": { "type": "string", "required": true },
+        "count": { "type": "number", "required": false },
+        "scenario": { "type": "string", "required": false }
+      }
+    },
+    {
+      "name": "resident_lookup",
+      "description": "Search and retrieve resident information",
+      "parameters": {
+        "query": { "type": "string", "required": false },
+        "resident_id": { "type": "string", "required": false },
+        "filters": { "type": "object", "required": false }
+      }
+    },
+    {
+      "name": "staff_schedule",
+      "description": "View and manage staff schedules",
+      "parameters": {
+        "date": { "type": "string", "required": false },
+        "department": { "type": "string", "required": false },
+        "shift": { "type": "string", "required": false }
+      }
+    }
+  ],
+  "permissions": [
+    "database.read",
+    "database.write",
+    "message.send",
+    "files.write"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "name": "@openclaw/skill-senior-living-ops",
+  "version": "1.0.0",
+  "description": "Comprehensive senior living facility operations management - resident wellness checks, IEQ alerts, family notifications, and daily reporting with WellStack integration.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "ts-node tests/index.test.ts",
+    "lint": "eslint . --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "openclaw",
+    "skill",
+    "senior-living",
+    "healthcare",
+    "facility-management",
+    "wellness",
+    "alerts"
+  ],
+  "author": "OpenClaw",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.19.35",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openclaw/skills/senior-living-ops"
+  },
+  "bugs": {
+    "url": "https://github.com/openclaw/skills/issues"
+  },
+  "homepage": "https://github.com/openclaw/skills/senior-living-ops#readme"
+}
